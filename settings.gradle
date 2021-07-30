@@ -1,0 +1,9 @@
+apply from: "supportApi.gradle"
+rootProject.name = "FelixMusic"
+include ':app'
+include ':kernel:core'
+includeWithApi ':comp:log'
+includeWithApi ':comp:download'
+includeWithApi ':feature:resp'
+includeWithApi ':feature:search'
+includeWithApi ':feature:mp3'
