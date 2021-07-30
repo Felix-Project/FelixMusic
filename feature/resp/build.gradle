@@ -1,10 +1,9 @@
-apply from: "switch.gradle"
-if (isApp) {
-    apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.android.library'
+apply from: "$rootDir/pin/switch.gradle"
+if (new File(projectDir, "switch.gradle").exists()) {
+    apply from: "switch.gradle"
 }
-apply plugin: 'kotlin-android'
+apply from: "$rootDir/pin/plugin.gradle"
+apply from: "$rootDir/pin/pin.gradle"
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -26,25 +25,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    if (isApp) {
-        sourceSets {
-            main {
-                res.srcDirs = ['src/main/res', 'src/mp3free/res', 'src/utils/res', 'src/app/res']
-                java.srcDirs = ['src/main/java', 'src/mp3free/java', 'src/utils/java', 'src/app/java']
-                manifest.srcFile 'src/app/AndroidManifest.xml'
-                assets.srcDirs = ['src/main/assets', 'src/app/assets']
-            }
-        }
-    } else {
-        sourceSets {
-            main {
-                res.srcDirs = ['src/main/res', 'src/mp3free/res', 'src/utils/res']
-                java.srcDirs = ['src/main/java', 'src/mp3free/java', 'src/utils/java']
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-            }
-        }
-    }
-
 }
 dependencies {
     implementation project(path: ':kernel:core')
@@ -61,6 +41,5 @@ dependencies {
         implementation project(path: ':comp:download-api')
         runtimeOnly project(path: ':comp:download')
     }
-
     implementation 'com.squareup.okio:okio:2.4.3'
 }

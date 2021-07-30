@@ -1,8 +1,9 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+apply from: "$rootDir/pin/switch.gradle"
+if (new File(projectDir, "switch.gradle").exists()) {
+    apply from: "switch.gradle"
 }
-
+apply from: "$rootDir/pin/plugin.gradle"
+apply from: "$rootDir/pin/pin.gradle"
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -32,14 +33,6 @@ android {
     }
     buildFeatures {
         viewBinding true
-    }
-
-    sourceSets {
-        main {
-            res.srcDirs = ['src/main/res', 'src/widget/res', 'src/ui/res']
-            java.srcDirs = ['src/main/java', 'src/widget/java', 'src/ui/java']
-            manifest.srcFile 'src/main/AndroidManifest.xml'
-        }
     }
 }
 dependencies {

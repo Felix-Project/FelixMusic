@@ -1,0 +1,47 @@
+import java.util.function.Function
+import java.util.function.Predicate
+
+android {
+    def src_dir = new File(projectDir, 'src')
+    def filter = new Predicate<String>() {
+        @Override
+        boolean test(String name) {
+            def app = (!"app".equals(name) || isApp)
+            def notTest = (!name.contains("android")) && (!name.contains("test"))
+            def isDir = new File(src_dir, name).isDirectory()
+            return app && notTest && isDir
+        }
+    }
+// 扫描当前模块下的Pins模块，并生成List
+    def p_module_names = src_dir.list()
+            .toList()
+            .stream()
+            .filter(filter)
+            .collect()
+// 把生成的List合成为srcDir格式
+    def javaMap = new Function() {
+        @Override
+        Object apply(Object module) {
+            return ['src', module, 'java'].join('/')
+        }
+    }
+    def resMap = new Function() {
+        @Override
+        Object apply(Object module) {
+            return ['src', module, 'res'].join('/')
+        }
+    }
+// 指定路径
+    sourceSets {
+        main {
+            manifest.srcFile "src/main/AndroidManifest.xml"
+            java.srcDirs = p_module_names.stream()
+                    .map(javaMap)
+                    .collect()
+            res.srcDirs = p_module_names
+                    .stream()
+                    .map(resMap)
+                    .collect()
+        }
+    }
+}

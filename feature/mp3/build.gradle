@@ -1,8 +1,9 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+apply from: "$rootDir/pin/switch.gradle"
+if (new File(projectDir, "switch.gradle").exists()) {
+    apply from: "switch.gradle"
 }
-
+apply from: "$rootDir/pin/plugin.gradle"
+apply from: "$rootDir/pin/pin.gradle"
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -29,15 +30,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-    }
-
-    sourceSets {
-        main {
-            res.srcDirs = ['src/main/res', 'src/mp3file/res']
-            java.srcDirs = ['src/main/java', 'src/mp3file/java'
-            ]
-            manifest.srcFile 'src/main/AndroidManifest.xml'
-        }
     }
 }
 

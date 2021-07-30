@@ -1,7 +1,9 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+apply from: "$rootDir/pin/switch.gradle"
+if (new File(projectDir, "switch.gradle").exists()) {
+    apply from: "switch.gradle"
 }
+apply from: "$rootDir/pin/plugin.gradle"
+apply from: "$rootDir/pin/pin.gradle"
 
 android {
     compileSdkVersion 30
