@@ -10,14 +10,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.felix.utils.widget.RoundImageView
             android:id="@+id/ivAlbum"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_margin="16dp"
+            android:elevation="8dp"
+            android:src="@drawable/ic_def_album"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:radius="4dp" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -26,7 +29,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:textColor="#ff000000"
-            android:textSize="16.0sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/ivAlbum"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,10 +58,10 @@
             app:circular_progress_color="#FF3700B3"
             app:circular_radius="16dp"
             app:circular_width="1dp"
-            app:progress_text_size="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:progress_text_size="12sp" />
 
         <Button
             android:id="@+id/btnDownload"

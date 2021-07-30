@@ -1,18 +1,14 @@
 package com.felix.search
 
-import android.os.Environment
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.felix.arch.mvvm.BaseViewModel
 import com.felix.arch.mvvm.ListLiveData
-import com.felix.download.DownloadProxy
-import com.felix.download.IDownload
+import com.felix.arch.mvvm.ResultBean
 import com.felix.lib_app_tools.toast.ToastDelegate
 import com.felix.resp.ResProxy
 import com.felix.resp.SongBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.io.IOException
 
 class SearchViewModel : BaseViewModel() {
@@ -27,18 +23,14 @@ class SearchViewModel : BaseViewModel() {
             try {
                 ResProxy.searchMp3(songName, page)?.let {
                     if (it.isEmpty()) {
-                        viewModelScope.launch {
-                            ToastDelegate.show("查无数据")
-                        }
+                        result.postValue(ResultBean(false, 100, "查无数据"))
                     }
                     list.value?.clear()
                     list.addValue(it)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                viewModelScope.launch {
-                    ToastDelegate.show("网络异常")
-                }
+                result.postValue(ResultBean(false, msg = "网络异常"))
             }
 
         }

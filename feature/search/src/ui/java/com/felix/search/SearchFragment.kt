@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.felix.arch.mvvm.BaseMvvmFragment
+import com.felix.lib_app_tools.toast.ToastDelegate
 import com.felix.resp.SongBean
 import com.felix.search.databinding.FragmentSearchBinding
 import kotlin.math.abs
@@ -37,6 +38,7 @@ class SearchFragment : BaseMvvmFragment<SearchViewModel>() {
             rvMusicList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             etKeyword.setOnEditorActionListener { v, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    showLoading("正在搜索${etKeyword.text.toString()}")
                     viewModel.search(etKeyword.text.toString())
                 }
                 true
@@ -47,6 +49,7 @@ class SearchFragment : BaseMvvmFragment<SearchViewModel>() {
                 }
                 true
             }
+            etKeyword.requestFocus()
         }.root
     }
 
@@ -59,7 +62,14 @@ class SearchFragment : BaseMvvmFragment<SearchViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observe(viewModel.list) {
+            dismissLoading()
             searchAdp.datas = it
+        }
+        observe(viewModel.result) {
+            dismissLoading()
+            it.msg?.let {
+                ToastDelegate.show(it)
+            }
         }
     }
 

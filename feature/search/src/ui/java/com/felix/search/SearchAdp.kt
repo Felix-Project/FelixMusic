@@ -36,7 +36,30 @@ class SearchAdp : BaseBindingAdp<SongBean, MusicItmBinding>() {
             tvArtist.text = data.artist
             tvAlbum.text = data.album?.title ?: ""
             data.album?.thumb?.let {
-                Glide.with(ivAlbum).load(it.photo_135).into(ivAlbum)
+                var url = it.photo_135
+                if (url == null) {
+                    url = it.photo_68
+                }
+                if (url == null) {
+                    url = it.photo_270
+                }
+                if (url == null) {
+                    url = it.photo_34
+                }
+                if (url == null) {
+                    url = it.photo_300
+                }
+                if (url == null) {
+                    url = it.photo_600
+                }
+                if (url == null) {
+                    url = it.photo_1200
+                }
+                Glide.with(ivAlbum)
+                    .load(url)
+                    .placeholder(R.drawable.ic_def_album)
+                    .error(R.drawable.ic_album_error)
+                    .into(ivAlbum)
             }
             btnDownload.setOnClickListener {
                 download(binding, data)
