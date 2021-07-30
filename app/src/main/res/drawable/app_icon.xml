@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="108dp" />
+            <solid android:color="@color/purple_500" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/app_padding"
+        android:drawable="@drawable/ic_icon"
+        android:end="@dimen/app_padding"
+        android:start="@dimen/app_padding"
+        android:top="@dimen/app_padding" />
+</layer-list>
