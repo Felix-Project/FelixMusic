@@ -76,7 +76,7 @@ class SearchAdp : BaseBindingAdp<SongBean, MusicItmBinding>() {
     private fun download(binding: MusicItmBinding, songBean: SongBean) {
         IDownload.DownloadConfig(
             url = songBean.url ?: "",
-            name = "${songBean.title} - ${songBean.artist}",
+            name = "${songBean.artist} - ${songBean.title}",
             File(Environment.getExternalStorageDirectory(), "felix/Music/Like")
         ).let { config ->
             DownloadProxy.download(config, { file ->
