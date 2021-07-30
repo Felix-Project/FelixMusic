@@ -82,4 +82,18 @@ class DownloadOkImpl(var app: Application) : IDownload {
             }
         })
     }
+
+    override fun downloadBitmap(url: String): IDownload.BitmapHolder? {
+        val request: Request = Request.Builder().url(url).build()
+        try {
+            val response = client.newCall(request).execute()
+            val type = response.headers["content-type"] ?: "image/jpeg"
+            return response.body?.bytes()?.let {
+                IDownload.BitmapHolder(it, type)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
 }

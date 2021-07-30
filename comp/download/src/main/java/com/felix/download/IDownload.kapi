@@ -11,6 +11,10 @@ interface IDownload {
         onError: (Throwable) -> Unit = { it.printStackTrace() },
         onProgress: ((downloaded: Long, total: Long) -> Unit)? = null
     )
+
+    data class BitmapHolder(var byteArray: ByteArray, var contentType: String)
+
+    fun downloadBitmap(url: String): BitmapHolder?
 }
 
 object DownloadProxy : IDownload {
@@ -24,5 +28,9 @@ object DownloadProxy : IDownload {
         iDownload?.download(downloadConfig, onCompelete, onError, onProgress) ?: kotlin.run {
             onError.invoke(NullPointerException("not implemetation for iDownload."))
         }
+    }
+
+    override fun downloadBitmap(url: String): IDownload.BitmapHolder? {
+        return iDownload?.downloadBitmap(url)
     }
 }

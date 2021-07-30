@@ -3,7 +3,13 @@ package com.felix.resp
 import java.io.File
 
 interface IMp3Tag {
-    data class ID3Tag(var title: String, var artist: String, var album: String)
+    data class ID3Tag(
+        var title: String,
+        var artist: String,
+        var album: String,
+        var albumImage: ByteArray? = null,
+        var mimeType: String = ""
+    )
 
     fun writeID3V24(file: File, iD3Tag: ID3Tag): Boolean
 }

@@ -24,10 +24,6 @@ class Mp3TagImpl : IMp3Tag, ITAG {
             Log.i(TAG, "writeID3V24: file(${file.absolutePath}) can't no be read.")
             return false
         }
-        if (!file.canExecute()) {
-            Log.i(TAG, "writeID3V24: file(${file.absolutePath}) can't no be executed.")
-            return false
-        }
         val mp3File = Mp3File(file)
         mp3File.removeCustomTag()
         mp3File.removeId3v1Tag()
@@ -36,6 +32,7 @@ class Mp3TagImpl : IMp3Tag, ITAG {
             title = iD3Tag.title
             album = iD3Tag.album
             artist = iD3Tag.artist
+            setAlbumImage(iD3Tag.albumImage, iD3Tag.mimeType)
         }
         val tmpFile = File(file.parent, file.name.plus(".tmp"))
         try {

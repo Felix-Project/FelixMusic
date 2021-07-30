@@ -81,11 +81,17 @@ class SearchAdp : BaseBindingAdp<SongBean, MusicItmBinding>() {
         ).let { config ->
             DownloadProxy.download(config, { file ->
                 Log.d(TAG, "onCompelete: download success.")
-                IMp3Tag.ID3Tag(
-                    title = songBean.title ?: "",
-                    artist = songBean.artist ?: "",
-                    album = songBean.album?.title ?: ""
-                ).let {
+                songBean?.album?.thumb?.photo_1200?.let {
+                    DownloadProxy.downloadBitmap(it)
+                }.let {
+                    IMp3Tag.ID3Tag(
+                        title = songBean.title ?: "",
+                        artist = songBean.artist ?: "",
+                        album = songBean.album?.title ?: "",
+                        albumImage = it?.byteArray,
+                        mimeType = it?.contentType ?: ""
+                    )
+                }.let {
                     Mp3TagProxy.writeID3V24(file, it)
                 }
                 Log.d(TAG, "onCompelete: writeID3V2 success.")

@@ -51,4 +51,8 @@ class DownloadImpl(var app: Application) : IDownload {
             .setListener(listener)
             .start()
     }
+
+    override fun downloadBitmap(url: String): IDownload.BitmapHolder? {
+        return null
+    }
 }
