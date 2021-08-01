@@ -53,6 +53,11 @@ class SearchFragment : BaseMvvmFragment<SearchViewModel>() {
         }.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideKeyboard()
+    }
+
     private fun hideKeyboard() {
         context?.getSystemService(Context.INPUT_METHOD_SERVICE)?.let {
             it as InputMethodManager

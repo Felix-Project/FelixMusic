@@ -44,11 +44,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation project(path: ':kernel:core')
-    implementation project(path: ':feature:search')
+    implementation project(path: ':feature:search-api')
+    implementation project(path: ':feature:id3tool-api')
+
 
     runtimeOnly project(path: ':comp:download')
     runtimeOnly project(path: ':comp:log')
     runtimeOnly project(path: ':feature:resp')
     runtimeOnly project(path: ':feature:mp3')
-    implementation project(path: ':feature:search')
+    runtimeOnly project(path: ':feature:search')
+    runtimeOnly project(path: ':feature:id3tool')
 }

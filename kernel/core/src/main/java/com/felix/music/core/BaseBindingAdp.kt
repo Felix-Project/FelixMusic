@@ -1,5 +1,7 @@
 package com.felix.music.core
 
+import android.text.Layout
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,9 @@ import com.felix.utils.utils.ITAG
  */
 abstract class BaseBindingAdp<T, vb : ViewBinding> :
     RecyclerView.Adapter<BaseBindingAdp.CommonVH>(), ITAG {
+
+    protected val ViewGroup.layoutInflater
+        get() = LayoutInflater.from(context)
 
     var datas = mutableListOf<T>()
         set(value) {
