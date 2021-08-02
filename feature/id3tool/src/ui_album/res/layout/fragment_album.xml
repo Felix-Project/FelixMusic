@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:elevation="48dp"
         app:statusBarForeground="@null">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -14,21 +16,150 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="enterAlways|scroll">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/etKeyword"
-                android:layout_width="fill_parent"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@drawable/common_round_white_background"
-                android:drawableStart="@drawable/ic_search_black_24dp"
-                android:drawablePadding="4dp"
-                android:elevation="8dp"
-                android:imeOptions="actionSearch"
-                android:maxLines="1"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:textSize="16sp"
-                app:layout_collapseMode="parallax" />
+                android:layout_margin="4dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="48dp"
+                app:layout_collapseMode="parallax">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.felix.utils.widget.RoundImageView
+                        android:id="@+id/ivOriginAlbum"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_margin="16dp"
+                        android:elevation="8dp"
+                        android:src="@drawable/ic_def_album"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:radius="4dp" />
+
+                    <TextView
+                        android:id="@+id/tvOriginTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="#ff000000"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@id/ivOriginAlbum"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="title" />
+
+                    <TextView
+                        android:id="@+id/tvOriginArtist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/tvOriginTitle"
+                        app:layout_constraintTop_toBottomOf="@id/tvOriginTitle"
+                        tools:text="artist" />
+
+                    <TextView
+                        android:id="@+id/tvOriginAlbum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:layout_constraintStart_toStartOf="@id/tvOriginTitle"
+                        app:layout_constraintTop_toBottomOf="@id/tvOriginArtist"
+                        tools:text="album" />
+
+
+                    <ImageView
+                        android:id="@+id/ivRefresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_refresh"
+                        app:layout_constraintBottom_toBottomOf="@id/ivOriginAlbum"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/ivOriginAlbum" />
+
+
+                    <CheckBox
+                        android:id="@+id/chkTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:checked="false"
+                        android:text="title"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/chkArtist"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ivOriginAlbum" />
+
+
+                    <CheckBox
+                        android:id="@+id/chkArtist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:checked="false"
+                        android:text="artist"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/chkAlbum"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/chkTitle"
+                        app:layout_constraintTop_toBottomOf="@id/ivOriginAlbum" />
+
+                    <CheckBox
+                        android:id="@+id/chkAlbum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:checked="false"
+                        android:text="album"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/chkImage"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/chkArtist"
+                        app:layout_constraintTop_toBottomOf="@id/ivOriginAlbum" />
+
+                    <CheckBox
+                        android:id="@+id/chkImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:checked="true"
+                        android:text="image"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/chkAlbum"
+                        app:layout_constraintTop_toBottomOf="@id/ivOriginAlbum" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <!--            <androidx.appcompat.widget.AppCompatEditText-->
+            <!--                android:id="@+id/etKeyword"-->
+            <!--                android:layout_width="fill_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="8dp"-->
+            <!--                android:background="@drawable/common_round_white_background"-->
+            <!--                android:drawableStart="@drawable/ic_search_black_24dp"-->
+            <!--                android:drawablePadding="4dp"-->
+            <!--                android:elevation="8dp"-->
+            <!--                android:imeOptions="actionSearch"-->
+            <!--                android:maxLines="1"-->
+            <!--                android:padding="8dp"-->
+            <!--                android:singleLine="true"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:layout_collapseMode="parallax" />-->
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

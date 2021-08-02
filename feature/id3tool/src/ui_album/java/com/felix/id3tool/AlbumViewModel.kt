@@ -1,9 +1,11 @@
 package com.felix.id3tool
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.felix.arch.mvvm.BaseViewModel
 import com.felix.arch.mvvm.ListLiveData
 import com.felix.arch.mvvm.ResultBean
+import com.felix.resp.IMp3Tag
 import com.felix.resp.Mp3TagProxy
 import com.felix.resp.ResProxy
 import com.felix.resp.SongBean
@@ -23,15 +25,17 @@ import java.io.IOException
  */
 class AlbumViewModel : BaseViewModel() {
     val list: ListLiveData<SongBean> = ListLiveData()
-    fun search(file: File) {
+    val id3Tag = MutableLiveData<IMp3Tag.ID3Tag>()
+    fun loadId3Tag(file: File) {
         viewModelScope.launch(Dispatchers.IO) {
-            search(Mp3TagProxy.getID3V24(file).title?.takeIf { it.isNotBlank() }
-                ?: kotlin.run {
-                    file.name.let {
+            id3Tag.postValue(Mp3TagProxy.getID3V24(file).apply {
+                if (title.isNullOrBlank()) {
+                    title = file.name.let {
                         val endIndex = it.lastIndexOf('.').takeIf { it >= 0 } ?: it.length
                         it.substring(0, endIndex)
                     }
-                })
+                }
+            })
         }
     }
 
@@ -54,6 +58,44 @@ class AlbumViewModel : BaseViewModel() {
                 result.postValue(ResultBean(false, msg = "网络异常"))
             }
 
+        }
+    }
+
+    data class CheckHolder(
+        var title: Boolean,
+        var artist: Boolean,
+        var album: Boolean,
+        var image: Boolean
+    )
+
+    fun fillId3Tag(file: File, resource: ByteArray?, data: SongBean, checkHolder: CheckHolder) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Mp3TagProxy.getID3V24(file).run {
+                var change = false
+                if (checkHolder.title) {
+                    title = data.title ?: ""
+                    change = true
+                }
+                if (checkHolder.artist) {
+                    artist = data.artist ?: ""
+                    change = true
+                }
+                if (checkHolder.album) {
+                    album = data.album?.title ?: ""
+                    change = true
+                }
+                if (checkHolder.image) {
+                    resource?.let {
+                        albumImage = it
+                        mimeType = "image/jpeg"
+                        change = true
+                    }
+                }
+                if (change) this else null
+            }?.let {
+                Mp3TagProxy.fillID3V24(file, it)
+                id3Tag.postValue(it)
+            }
         }
     }
 }

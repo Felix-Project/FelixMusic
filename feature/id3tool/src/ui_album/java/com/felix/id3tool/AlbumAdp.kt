@@ -30,6 +30,7 @@ class AlbumAdp : BaseBindingAdp<SongBean, AlbumItemBinding>() {
         return AlbumItemBinding.inflate(parent.layoutInflater, parent, false)
     }
 
+    var albumCallback: ((ByteArray?, SongBean) -> Unit)? = null
     override fun onDataChange(binding: AlbumItemBinding, data: SongBean, pos: Int, size: Int) {
         binding.apply {
             tvTitle.text = data.title
@@ -69,22 +70,7 @@ class AlbumAdp : BaseBindingAdp<SongBean, AlbumItemBinding>() {
                             isFirstResource: Boolean
                         ): Boolean {
                             scope.launch(Dispatchers.IO) {
-                                Mp3TagProxy.getID3V24(file).apply {
-                                    if (title.isBlank()) {
-                                        title = data.title ?: ""
-                                    }
-                                    if (artist.isBlank()) {
-                                        artist = data.artist ?: ""
-                                    }
-                                    if (album.isBlank()) {
-                                        album = data.album?.title ?: ""
-                                    }
-
-                                    albumImage = resource
-                                    mimeType = "image/jpeg"
-                                }.let {
-                                    Mp3TagProxy.fillID3V24(file, it)
-                                }
+                                albumCallback?.invoke(resource, data)
                                 launch(Dispatchers.Main) {
                                     fdvDonwload.showDownloadOk()
                                 }
