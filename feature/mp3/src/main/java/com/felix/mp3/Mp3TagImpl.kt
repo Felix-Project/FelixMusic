@@ -96,15 +96,19 @@ class Mp3TagImpl : IMp3Tag, ITAG {
             Log.i(TAG, "writeID3V24: file(${file.absolutePath}) can't no be read.")
             return IMp3Tag.ID3Tag("", "", "")
         }
-        val mp3File = Mp3File(file)
-        return mp3File.id3v2Tag.let {
-            IMp3Tag.ID3Tag(
-                title = it?.title ?: "",
-                artist = it?.artist ?: "",
-                album = it?.album ?: "",
-                albumImage = it?.albumImage,
-                mimeType = it?.albumImageMimeType ?: ""
-            )
+        try {
+            return Mp3File(file).id3v2Tag.let {
+                IMp3Tag.ID3Tag(
+                    title = it?.title ?: "",
+                    artist = it?.artist ?: "",
+                    album = it?.album ?: "",
+                    albumImage = it?.albumImage,
+                    mimeType = it?.albumImageMimeType ?: ""
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return IMp3Tag.ID3Tag("", "", "")
         }
     }
 }

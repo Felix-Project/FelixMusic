@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.felix.music"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 

@@ -1,5 +1,6 @@
 package com.felix.id3tool
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.felix.arch.mvvm.BaseViewModel
@@ -9,6 +10,7 @@ import com.felix.resp.IMp3Tag
 import com.felix.resp.Mp3TagProxy
 import com.felix.resp.ResProxy
 import com.felix.resp.SongBean
+import com.felix.utils.gson.toJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -42,11 +44,39 @@ class AlbumViewModel : BaseViewModel() {
     fun search(songName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                var searchMp3 = ResProxy.searchMp3(songName, 0)
-                if (searchMp3.isNullOrEmpty()) {
-                    searchMp3 = ResProxy.searchMp3(songName, 0)
-                }
-                searchMp3?.let {
+                ResProxy.searchMp3(songName, 0)?.sortedWith(Comparator { o1, o2 ->
+                    if (!o1.title.equals(o2.title)) {
+                        if (o1.title.equals(id3Tag.value?.title)) {
+                            return@Comparator -1
+                        } else if (o2.title.equals(id3Tag.value?.title)) {
+                            return@Comparator 1
+                        } else {
+                            return@Comparator o1.title?.compareTo(o2?.title ?: "") ?: 1
+                        }
+                    }
+
+                    if (!o1.artist.equals(o2.artist)) {
+                        if (o1.artist.equals(id3Tag.value?.artist)) {
+                            return@Comparator -1
+                        } else if (o2.artist.equals(id3Tag.value?.artist)) {
+                            return@Comparator 1
+                        } else {
+                            return@Comparator o1.artist?.compareTo(o2?.artist ?: "") ?: 1
+                        }
+                    }
+
+                    if (!(o1.album?.title?.equals(o2.album?.title) ?: false)) {
+                        if (o1.album?.title.equals(id3Tag.value?.title)) {
+                            return@Comparator -1
+                        } else if (o2.album?.title.equals(id3Tag.value?.title)) {
+                            return@Comparator 1
+                        } else {
+                            return@Comparator o1.album?.title?.compareTo(o2?.album?.title ?: "")
+                                ?: 1
+                        }
+                    }
+                    0
+                }).let {
                     if (it.isEmpty()) {
                         result.postValue(ResultBean(false, 100, "查无数据"))
                     }
@@ -93,8 +123,12 @@ class AlbumViewModel : BaseViewModel() {
                 }
                 if (change) this else null
             }?.let {
-                Mp3TagProxy.fillID3V24(file, it)
-                id3Tag.postValue(it)
+                Log.i(TAG, "fillId3Tag: ${it.toJson()}")
+                if (Mp3TagProxy.fillID3V24(file, it)) {
+                    id3Tag.postValue(it)
+                } else {
+                    result.postValue(ResultBean(false, msg = "文件写入失败"))
+                }
             }
         }
     }

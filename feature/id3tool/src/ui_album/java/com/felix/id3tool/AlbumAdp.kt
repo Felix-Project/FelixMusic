@@ -48,37 +48,45 @@ class AlbumAdp : BaseBindingAdp<SongBean, AlbumItemBinding>() {
             fdvDonwload.reset()
 
             fdvDonwload.setOnClickListener {
-                Glide.with(ivAlbum)
-                    .`as`(ByteArray::class.java)
-                    .load(data.album?.thumb?.photo_1200)
-                    .addListener(object : RequestListener<ByteArray> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<ByteArray>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            fdvDonwload.showDownloadError()
-                            return true
-                        }
-
-                        override fun onResourceReady(
-                            resource: ByteArray?,
-                            model: Any?,
-                            target: Target<ByteArray>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            scope.launch(Dispatchers.IO) {
-                                albumCallback?.invoke(resource, data)
-                                launch(Dispatchers.Main) {
-                                    fdvDonwload.showDownloadOk()
-                                }
-
+                data.album?.thumb?.photo_1200?.let {
+                    Glide.with(ivAlbum)
+                        .`as`(ByteArray::class.java)
+                        .load(data.album?.thumb?.photo_1200)
+                        .addListener(object : RequestListener<ByteArray> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<ByteArray>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                fdvDonwload.showDownloadError()
+                                return true
                             }
-                            return true
-                        }
-                    }).submit()
+
+                            override fun onResourceReady(
+                                resource: ByteArray?,
+                                model: Any?,
+                                target: Target<ByteArray>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                scope.launch(Dispatchers.IO) {
+                                    albumCallback?.invoke(resource, data)
+                                    launch(Dispatchers.Main) {
+                                        fdvDonwload.showDownloadOk()
+                                    }
+
+                                }
+                                return true
+                            }
+                        }).submit()
+                } ?: kotlin.run {
+                    albumCallback?.invoke(null, data)
+                    fdvDonwload.showDownloadOk()
+
+                }
+
+
                 fdvDonwload.startDownload()
             }
         }

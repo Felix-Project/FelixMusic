@@ -1,24 +1,19 @@
 package com.felix.id3tool
 
-import android.content.Context
-import android.graphics.BitmapFactory
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
-import androidx.fragment.app.Fragment
+import android.text.InputType
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import androidx.core.text.toSpannable
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.felix.arch.mvvm.BaseMvvmFragment
 import com.felix.id3tool.databinding.FragmentAlbumBinding
-import com.felix.resp.Mp3TagProxy
+import com.felix.lib_app_tools.toast.ToastDelegate
 import java.io.File
-import java.lang.NullPointerException
 
 /**
  * author: felix
@@ -30,6 +25,8 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
         const val KEY_PARM_FILE = "PARM_FILE"
     }
 
+    var albumCallback: AlbumCallback? = null
+
     var albumAdp: AlbumAdp = AlbumAdp()
     lateinit var binding: FragmentAlbumBinding
     private lateinit var rootFile: File
@@ -38,9 +35,11 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
         initFile()
     }
 
-    override fun onResume() {
-        super.onResume()
-        initFile()
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden.not()) {
+            initFile()
+        }
     }
 
     private fun initFile() {
@@ -80,19 +79,29 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
                 viewModel.loadId3Tag(rootFile)
             }
         }
+        ivRefresh.setOnLongClickListener {
+            showdialog()
+            true
+        }
+
+        ivBack.setOnClickListener {
+            albumCallback?.backToExplore()
+        }
 
         observe(viewModel.list) {
             dismissLoading()
             albumAdp.datas = it
         }
         observe(viewModel.result) {
+            ToastDelegate.show(it.msg)
             dismissLoading()
         }
         observe(viewModel.id3Tag) {
-            if (albumAdp.datas.isNullOrEmpty()) {
-                showLoading("正在搜索${it.title}")
-                viewModel.search(it.title)
+            if (text.isNullOrBlank()) {
+                text = it.title
             }
+            showLoading("正在搜索${it.title}")
+            viewModel.search(it.title)
             tvOriginTitle.text = it.title
             tvOriginArtist.text = it.artist
             tvOriginAlbum.text = it.album
@@ -127,5 +136,31 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
 //        context?.getSystemService(Context.INPUT_METHOD_SERVICE)?.let {
 //            it as InputMethodManager
 //        }?.hideSoftInputFromWindow(binding.etKeyword.windowToken, 0)
+    }
+
+    private var text = ""
+    fun showdialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setTitle("Title")
+
+        // Set up the input
+        val input = EditText(context)
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setHint("Enter Text")
+        input.setText(text)
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", { dialog, which ->
+            // Here you get get input text from the Edittext
+            text = input.text.toString()
+            viewModel.search(text)
+        })
+        builder.setNegativeButton(
+            "Cancel",
+            { dialog, which -> dialog.cancel() })
+
+        builder.show()
     }
 }

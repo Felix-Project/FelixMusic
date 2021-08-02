@@ -1,5 +1,6 @@
 package com.felix.id3tool
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,13 +25,32 @@ class FileExploreFragment : BaseMvvmFragment<FileExploreViewModule>() {
         savedInstanceState: Bundle?
     ) = FragmentFileExploreBinding.inflate(inflater, container, false).apply {
         fileAdp = FileAdp()
-        fileAdp.onItemClickListener = { view: View, data: File, position: Int, size: Int ->
-            if (data.isDirectory) {
-                viewModel.load(data)
+        fileAdp.onItemClickListener = { view: View, data: FileHolder, position: Int, size: Int ->
+            if (data.file.isDirectory) {
+                viewModel.load(data.file)
             } else {
-                fileExploreCallback.goMp3File(data)
-                ToastDelegate.show("这是mp3文件")
+                fileExploreCallback.goMp3File(data.file)
             }
+        }
+        fileAdp.onLongItemClickListener =
+            { view: View, data: FileHolder, position: Int, size: Int ->
+                if (!data.select()) {
+                    AlertDialog.Builder(context)
+                        .setPositiveButton("确定", { dialog, which ->
+                            data.file.delete()
+                            viewModel.load()
+                        })
+                        .setNegativeButton("取消", { dialog, which ->
+                            dialog.dismiss()
+                        })
+                        .setMessage("是否确认删除${data.file.name}")
+                        .create().show()
+                }
+                true
+            }
+
+        ivHome.setOnClickListener {
+            viewModel.load(viewModel.root)
         }
         rvFileList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvFileList.adapter = fileAdp
@@ -40,12 +60,16 @@ class FileExploreFragment : BaseMvvmFragment<FileExploreViewModule>() {
         }
         observe(viewModel.parent) {
             val isSdCard = it.absolutePath == viewModel.root.absolutePath
-            tvBack.isEnabled = !isSdCard
+            tvBack.visibility = takeIf { isSdCard }?.let { View.INVISIBLE } ?: View.VISIBLE
             tvBack.tag = it.takeIf { !isSdCard }?.let { it.parentFile }
             tvBack.text = it.takeIf { isSdCard }?.let {
                 it.name
             } ?: kotlin.run {
-                it.parentFile.name
+                return@run if (it.parentFile.absolutePath == viewModel.root.absolutePath) {
+                    "sdcard"
+                } else {
+                    it.parentFile.name
+                }
             }
         }
         tvBack.setOnClickListener {

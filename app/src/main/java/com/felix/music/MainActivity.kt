@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<ViewPager>(R.id.vpMain).apply {
             adapter = MainPager(supportFragmentManager)
         }
+        requestPermission()
 
 //        supportFragmentManager.beginTransaction().let {
 //            it.add(R.id.container, ID3ToolProxy.newFragment())
