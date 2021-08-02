@@ -1,3 +1,21 @@
+gradle.projectsLoaded {
+    //为所有具有api的模块添加入core模块，后续把apt和plugin添加上
+    def core = gradle.rootProject.allprojects.find {
+        it.name.equals("core") && it.properties.get("parent").name.equals("kernel")
+    }
+    if (core != null) {
+        gradle.rootProject.allprojects.forEach { Project p ->
+            p.afterEvaluate {
+                def apiProject = gradle.rootProject.allprojects.find {
+                    it.name.endsWith("${p.name}-api")
+                }
+                if (apiProject != null) {
+                    p.dependencies.add("implementation", core)
+                }
+            }
+        }
+    }
+}
 apply from: "supportApi.gradle"
 rootProject.name = "FelixMusic"
 include ':app'

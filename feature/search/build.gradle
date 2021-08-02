@@ -39,7 +39,7 @@ android {
 dependencies {
 
 //    implementation 'com.pitt.fresh.library:freshdownloadview:1.0'
-    implementation project(path: ':kernel:core')
+
     compileApi project(path: ':feature:resp')
     compileApi project(path: ':feature:mp3')
     compileApi project(path: ':comp:download')

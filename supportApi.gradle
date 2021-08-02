@@ -14,7 +14,7 @@ gradle.projectsLoaded {
                 it.name.endsWith("${p.name}-api")
             }
             if (apiProject != null) {
-                p.dependencies.add("api", apiProject)
+                p.dependencies.add("implementation", apiProject)
             }
         }
     }
