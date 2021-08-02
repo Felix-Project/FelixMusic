@@ -46,7 +46,7 @@ android {
 
 dependencies {
     implementation project(path: ":kernel:core")
-    implementation project(path: ":feature:mp3-api")
+    compileApi project(path: ":feature:mp3")
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'

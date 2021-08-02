@@ -39,6 +39,14 @@ allprojects {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
     }
+//    dependencies {
+//        ext.compileApi = { Dependency dependency ->
+//            runtimeOnly dependency
+//            def p = dependency.properties.get("dependencyProject")
+//            def name = p.toString().replace("project", "").replace("'", "").trim()
+//            implementation project(path: name.plus("-api"))
+//        }
+//    }
 }
 
 task clean(type: Delete) {
