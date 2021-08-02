@@ -45,8 +45,11 @@ android {
 }
 
 dependencies {
-    implementation project(path: ":kernel:core")
     compileApi project(path: ":feature:mp3")
+    compileApi project(path: ":feature:resp")
+    implementation("com.github.bumptech.glide:glide:4.11.0") {
+        exclude group: "com.android.support"
+    }
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'

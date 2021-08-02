@@ -17,7 +17,7 @@ class Id3ToolFragment : Fragment(), FileExploreCallback {
     val fileExploreFragment = FileExploreFragment().apply {
         fileExploreCallback = this@Id3ToolFragment
     }
-    val aLbumFragment = ALbumFragment()
+    val aLbumFragment = AlbumFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +36,7 @@ class Id3ToolFragment : Fragment(), FileExploreCallback {
 
     override fun goMp3File(file: File) {
         aLbumFragment.arguments = (aLbumFragment.arguments ?: Bundle()).apply {
-            putSerializable(ALbumFragment.KEY_PARM_FILE, file)
+            putSerializable(AlbumFragment.KEY_PARM_FILE, file)
         }
         childFragmentManager.findFragmentByTag(aLbumFragment::class.java.name)?.let { fragment ->
             childFragmentManager.beginTransaction().also {

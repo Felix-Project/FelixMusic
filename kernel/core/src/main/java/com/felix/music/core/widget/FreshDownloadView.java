@@ -1,4 +1,4 @@
-package com.felix.search;
+package com.felix.music.core.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -23,6 +23,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
+import com.felix.music.core.R;
 
 
 /**

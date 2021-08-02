@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/tvFileTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</FrameLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:statusBarForeground="@null">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="enterAlways|scroll">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etKeyword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/common_round_white_background"
+                android:drawableStart="@drawable/ic_search_black_24dp"
+                android:drawablePadding="4dp"
+                android:elevation="8dp"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:layout_collapseMode="parallax" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMusicList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="2dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etKeyword" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
