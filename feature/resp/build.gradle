@@ -6,7 +6,7 @@ apply from: "$rootDir/pin/plugin.gradle"
 apply from: "$rootDir/pin/pin.gradle"
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         if (isApp) {
