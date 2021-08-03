@@ -20,7 +20,7 @@ data class Data(
 fun Data.toMp3Bean() = Mp3Bean(
     title = title ?: "",
     artist = author ?: "",
-    album = "",
+    album = title ?: "",
     albumImageThumb = pic,
     albumImage = pic,
     albumImageOrigin = pic

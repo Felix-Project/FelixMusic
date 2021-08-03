@@ -23,6 +23,7 @@ import java.io.File
  * @Description: AlbumAdp 类作用描述
  */
 class AlbumAdp : BaseBindingAdp<Mp3Bean, AlbumItemBinding>() {
+    var downloadImage = true
     lateinit var file: File
     override fun getBindging(parent: ViewGroup, viewType: Int): AlbumItemBinding {
         return AlbumItemBinding.inflate(parent.layoutInflater, parent, false)

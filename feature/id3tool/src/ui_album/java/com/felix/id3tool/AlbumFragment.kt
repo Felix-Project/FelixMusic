@@ -47,6 +47,7 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
         }?.let {
             rootFile = it
             albumAdp.file = rootFile
+            text = ""
             viewModel.loadId3Tag(rootFile)
         } ?: kotlin.run {
             throw NullPointerException("file must not be null")
@@ -70,6 +71,10 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
                     viewModel.fillId3Tag(file, resource, data, it)
                 }
             }
+        }
+        tvFileNmae.text = rootFile.name.let { it.substring(0, it.lastIndexOf(".")) }
+        chkImage.setOnCheckedChangeListener { buttonView, isChecked ->
+            albumAdp.downloadImage = isChecked
         }
         ivRefresh.setOnClickListener {
             viewModel.id3Tag?.value?.let {
@@ -99,6 +104,7 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
             if (text.isNullOrBlank()) {
                 text = it.title
             }
+            tvFileNmae.text = rootFile.name.let { it.substring(0, it.lastIndexOf(".")) }
             showLoading("正在搜索${it.title}")
             viewModel.search(it.title)
             tvOriginTitle.text = it.title

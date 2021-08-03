@@ -27,14 +27,7 @@ class AlbumViewModel : BaseViewModel() {
     val id3Tag = MutableLiveData<IMp3Tag.ID3Tag>()
     fun loadId3Tag(file: File) {
         viewModelScope.launch(Dispatchers.IO) {
-            id3Tag.postValue(Mp3TagProxy.getID3V24(file).apply {
-                if (title.isNullOrBlank()) {
-                    title = file.name.let {
-                        val endIndex = it.lastIndexOf('.').takeIf { it >= 0 } ?: it.length
-                        it.substring(0, endIndex)
-                    }
-                }
-            })
+            id3Tag.postValue(Mp3TagProxy.getID3V24(file))
         }
     }
 
