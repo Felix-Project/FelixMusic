@@ -4,15 +4,14 @@ import androidx.lifecycle.viewModelScope
 import com.felix.arch.mvvm.BaseViewModel
 import com.felix.arch.mvvm.ListLiveData
 import com.felix.arch.mvvm.ResultBean
-import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.resp.Mp3Bean
 import com.felix.resp.ResProxy
-import com.felix.resp.SongBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class SearchViewModel : BaseViewModel() {
-    val list: ListLiveData<SongBean> = ListLiveData()
+    val list: ListLiveData<Mp3Bean> = ListLiveData()
     private var currentName: String = ""
     private var currentPage = 0
 

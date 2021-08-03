@@ -1,7 +1,6 @@
 package com.felix.id3tool
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater

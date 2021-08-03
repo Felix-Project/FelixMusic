@@ -2,7 +2,6 @@ package com.felix.search
 
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.felix.arch.mvvm.BaseMvvmFragment
 import com.felix.lib_app_tools.toast.ToastDelegate
-import com.felix.resp.SongBean
 import com.felix.search.databinding.FragmentSearchBinding
 import kotlin.math.abs
 

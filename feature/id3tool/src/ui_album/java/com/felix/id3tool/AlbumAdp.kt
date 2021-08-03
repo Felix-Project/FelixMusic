@@ -8,9 +8,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.felix.id3tool.databinding.AlbumItemBinding
 import com.felix.music.core.BaseBindingAdp
-import com.felix.resp.IMp3Tag
-import com.felix.resp.Mp3TagProxy
-import com.felix.resp.SongBean
+import com.felix.resp.Mp3Bean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -24,21 +22,21 @@ import java.io.File
  * @CreateDate: 2021/8/2 14:37
  * @Description: AlbumAdp 类作用描述
  */
-class AlbumAdp : BaseBindingAdp<SongBean, AlbumItemBinding>() {
+class AlbumAdp : BaseBindingAdp<Mp3Bean, AlbumItemBinding>() {
     lateinit var file: File
     override fun getBindging(parent: ViewGroup, viewType: Int): AlbumItemBinding {
         return AlbumItemBinding.inflate(parent.layoutInflater, parent, false)
     }
 
-    var albumCallback: ((ByteArray?, SongBean) -> Unit)? = null
-    override fun onDataChange(binding: AlbumItemBinding, data: SongBean, pos: Int, size: Int) {
+    var albumCallback: ((ByteArray?, Mp3Bean) -> Unit)? = null
+    override fun onDataChange(binding: AlbumItemBinding, data: Mp3Bean, pos: Int, size: Int) {
         binding.apply {
             tvTitle.text = data.title
             tvArtist.text = data.artist
-            tvAlbum.text = data.album?.title ?: ""
-            data.album?.thumb?.let {
+            tvAlbum.text = data.album
+            data.albumImageThumb?.let {
                 Glide.with(ivAlbum)
-                    .load(it.photo_135)
+                    .load(it)
                     .error(R.drawable.ic_album_error)
                     .into(ivAlbum)
             } ?: kotlin.run {
@@ -48,10 +46,10 @@ class AlbumAdp : BaseBindingAdp<SongBean, AlbumItemBinding>() {
             fdvDonwload.reset()
 
             fdvDonwload.setOnClickListener {
-                data.album?.thumb?.photo_1200?.let {
+                data.albumImageOrigin?.let {
                     Glide.with(ivAlbum)
                         .`as`(ByteArray::class.java)
-                        .load(data.album?.thumb?.photo_1200)
+                        .load(it)
                         .addListener(object : RequestListener<ByteArray> {
                             override fun onLoadFailed(
                                 e: GlideException?,
@@ -83,10 +81,7 @@ class AlbumAdp : BaseBindingAdp<SongBean, AlbumItemBinding>() {
                 } ?: kotlin.run {
                     albumCallback?.invoke(null, data)
                     fdvDonwload.showDownloadOk()
-
                 }
-
-
                 fdvDonwload.startDownload()
             }
         }
