@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.felix.id3tool.databinding.FragmentId3ToolBinding
+import com.felix.lib_arch.mvvm.BaseFragment
 import java.io.File
 
 /**
@@ -13,7 +14,7 @@ import java.io.File
  * created on: 2021/8/1 18:49
  * description: Id3ToolFragment 的描述
  */
-class Id3ToolFragment : Fragment(), FileExploreCallback, AlbumCallback {
+class Id3ToolFragment : BaseFragment(), FileExploreCallback, AlbumCallback {
     val fileExploreFragment = FileExploreFragment().apply {
         fileExploreCallback = this@Id3ToolFragment
     }

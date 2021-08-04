@@ -168,4 +168,12 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
 
         builder.show()
     }
+
+    override fun onBackPress(): Boolean {
+        if (super.onBackPress()) {
+            return true
+        }
+        albumCallback?.backToExplore()
+        return true
+    }
 }

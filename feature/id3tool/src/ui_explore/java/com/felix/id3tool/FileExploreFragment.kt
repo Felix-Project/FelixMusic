@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.felix.arch.mvvm.BaseMvvmFragment
 import com.felix.id3tool.databinding.FragmentFileExploreBinding
 import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.music.core.utils.isSdcard
 import java.io.File
 
 /**
@@ -20,10 +21,12 @@ import java.io.File
 class FileExploreFragment : BaseMvvmFragment<FileExploreViewModule>() {
     lateinit var fileAdp: FileAdp
     lateinit var fileExploreCallback: FileExploreCallback
+    lateinit var binding: FragmentFileExploreBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FragmentFileExploreBinding.inflate(inflater, container, false).apply {
+        binding = this
         fileAdp = FileAdp()
         fileAdp.onItemClickListener = { view: View, data: FileHolder, position: Int, size: Int ->
             if (data.file.isDirectory) {
@@ -59,13 +62,13 @@ class FileExploreFragment : BaseMvvmFragment<FileExploreViewModule>() {
             fileAdp.datas = it
         }
         observe(viewModel.parent) {
-            val isSdCard = it.absolutePath == viewModel.root.absolutePath
+            val isSdCard = it.isSdcard()
             tvBack.visibility = takeIf { isSdCard }?.let { View.INVISIBLE } ?: View.VISIBLE
             tvBack.tag = it.takeIf { !isSdCard }?.let { it.parentFile }
             tvBack.text = it.takeIf { isSdCard }?.let {
                 it.name
             } ?: kotlin.run {
-                return@run if (it.parentFile.absolutePath == viewModel.root.absolutePath) {
+                return@run if (it.parentFile.isSdcard()) {
                     "sdcard"
                 } else {
                     it.parentFile.name
@@ -80,4 +83,15 @@ class FileExploreFragment : BaseMvvmFragment<FileExploreViewModule>() {
             }
         }
     }.root
+
+    override fun onBackPress(): Boolean {
+        if (super.onBackPress()) {
+            return true
+        }
+        if (viewModel?.parent?.value?.isSdcard() ?: true) {
+            return false
+        }
+        binding.tvBack.performClick()
+        return true
+    }
 }
