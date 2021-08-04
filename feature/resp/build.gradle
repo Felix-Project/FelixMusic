@@ -4,6 +4,7 @@ if (new File(projectDir, "switch.gradle").exists()) {
 }
 apply from: "$rootDir/pin/plugin.gradle"
 apply from: "$rootDir/pin/pin.gradle"
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -26,6 +27,7 @@ android {
         jvmTarget = '1.8'
     }
 }
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -41,4 +43,11 @@ dependencies {
         compileApi project(path: ':comp:download')
     }
     implementation 'com.squareup.okio:okio:2.4.3'
+
+    def roomVersion = '2.1.0-alpha06'
+    // room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$roomVersion"
 }

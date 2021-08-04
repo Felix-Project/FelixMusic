@@ -4,17 +4,25 @@ interface IRes {
     suspend fun searchMp3(name: String, page: Int = 0, type: String = ""): List<Mp3Bean>
 }
 
+interface ICacheableRes : IRes {
+    suspend fun cache(name: String, page: Int = 0, type: String = "", data: List<Mp3Bean>)
+}
+
 object ResProxy : IRes {
     var iMp3FreeRes: IRes? = null
     var iRes: IRes? = null
+    var iCacheRes: ICacheableRes? = null
 
     override suspend fun searchMp3(name: String, page: Int, type: String): List<Mp3Bean> {
-        if (TypeProxy == Type.mp3free) {
-            return (iMp3FreeRes ?: iRes)?.searchMp3(name, page) ?: emptyList()
-        } else {
-            return (iRes ?: iMp3FreeRes)?.searchMp3(name, page, TypeProxy.name) ?: emptyList()
+        return iCacheRes?.searchMp3(name, page, type)?.takeIf { it.isNotEmpty() } ?: kotlin.run {
+            return@run if (TypeProxy == Type.mp3free) {
+                (iMp3FreeRes ?: iRes)?.searchMp3(name, page) ?: emptyList()
+            } else {
+                (iRes ?: iMp3FreeRes)?.searchMp3(name, page, TypeProxy.name) ?: emptyList()
+            }.apply {
+                iCacheRes?.cache(name, page, type, this)
+            }
         }
-
     }
 }
 
