@@ -1,12 +1,13 @@
 package com.felix.download
 
 import android.app.Application
+import com.felix.download.base.AbsDownload
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import java.io.File
 
-class DownloadImpl(var app: Application) : IDownload {
+class DownloadImpl(app: Application) : AbsDownload(app) {
     override fun download(
         downloadConfig: IDownload.DownloadConfig,
         onCompelete: (file: File) -> Unit,
@@ -42,12 +43,7 @@ class DownloadImpl(var app: Application) : IDownload {
 
         }
         FileDownloader.getImpl().create(downloadConfig.url)
-            .setPath(
-                File(
-                    downloadConfig.directory ?: app.getExternalFilesDir("Download"),
-                    downloadConfig.name
-                ).absolutePath
-            )
+            .setPath(downloadConfig.getSaveFile().absolutePath)
             .setListener(listener)
             .start()
     }

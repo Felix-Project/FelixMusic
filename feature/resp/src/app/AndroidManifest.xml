@@ -11,7 +11,8 @@
         android:name=".RespApp"
         android:allowBackup="true"
         android:label="resp"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -10,8 +10,12 @@ package com.felix.resp
  * @Description: NeteaseImpl 类作用描述
  */
 class NeteaseImpl : IRes {
-    override suspend fun searchMp3(name: String, page: Int): List<Mp3Bean> {
-        return ApiNeteaseProxy.searchMp3(query = name, page = page + 1)
-            ?.takeIf { it.code == 200 }?.data?.map { it.toMp3Bean() } ?: emptyList()
+    override suspend fun searchMp3(name: String, page: Int, type: String): List<Mp3Bean> {
+        return ApiNeteaseProxy.searchMp3(query = name, page = page + 1, type = type)
+            ?.takeIf {
+                it.code == 200
+            }?.data?.map {
+                it.toMp3Bean()
+            } ?: emptyList()
     }
 }

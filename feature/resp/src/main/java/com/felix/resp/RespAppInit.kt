@@ -5,7 +5,7 @@ import com.felix.music.core.IAppInit
 
 class RespAppInit : IAppInit {
     override fun onCreate(app: Application, flavor: String, vararg args: String) {
-//        ResProxy.iRes = Mp3FreeImpl()
+        ResProxy.iMp3FreeRes = Mp3FreeImpl()
         ResProxy.iRes = NeteaseImpl()
     }
 }

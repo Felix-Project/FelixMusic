@@ -21,7 +21,20 @@ fun Data.toMp3Bean() = Mp3Bean(
     title = title ?: "",
     artist = author ?: "",
     album = title ?: "",
-    albumImageThumb = pic,
+    url = url ?: "",
+    albumImageThumb = pic?.let {
+        return@let if (it.endsWith("300x300") || it.endsWith("300X300")) {
+            it.substring(0, it.length - 7).plus("144x144")
+        } else {
+            it
+        }
+    },
     albumImage = pic,
-    albumImageOrigin = pic
+    albumImageOrigin = pic?.let {
+        return@let if (it.endsWith("300x300") || it.endsWith("300X300")) {
+            it.substring(0, it.length - 7)
+        } else {
+            it
+        }
+    }
 )

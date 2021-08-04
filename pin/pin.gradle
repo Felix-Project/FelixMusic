@@ -34,7 +34,11 @@ android {
 // 指定路径
     sourceSets {
         main {
-            manifest.srcFile "src/main/AndroidManifest.xml"
+            if (isApp) {
+                manifest.srcFile "src/app/AndroidManifest.xml"
+            } else {
+                manifest.srcFile "src/main/AndroidManifest.xml"
+            }
             java.srcDirs = p_module_names.stream()
                     .map(javaMap)
                     .collect()
