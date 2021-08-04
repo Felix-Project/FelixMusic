@@ -3,6 +3,7 @@ package com.felix.id3tool
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -38,6 +39,7 @@ class AlbumAdp : BaseBindingAdp<Mp3Bean, AlbumItemBinding>() {
             data.albumImageThumb?.let {
                 Glide.with(ivAlbum)
                     .load(it)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.ic_album_error)
                     .into(ivAlbum)
             } ?: kotlin.run {
@@ -51,6 +53,7 @@ class AlbumAdp : BaseBindingAdp<Mp3Bean, AlbumItemBinding>() {
                     Glide.with(ivAlbum)
                         .`as`(ByteArray::class.java)
                         .load(it)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .addListener(object : RequestListener<ByteArray> {
                             override fun onLoadFailed(
                                 e: GlideException?,

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.felix.download.DownloadProxy
 import com.felix.download.IDownload
 import com.felix.lib_app_tools.toast.ToastDelegate
@@ -13,6 +14,7 @@ import com.felix.resp.IMp3Tag
 import com.felix.resp.Mp3Bean
 import com.felix.resp.Mp3TagProxy
 import com.felix.search.databinding.MusicItmBinding
+import com.felix.utils.AppDelegate
 import com.felix.utils.handler.UIDelegate
 import java.io.File
 
@@ -38,6 +40,7 @@ class SearchAdp : BaseBindingAdp<Mp3Bean, MusicItmBinding>() {
             data.albumImageThumb.let {
                 Glide.with(ivAlbum)
                     .load(it)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_def_album)
                     .error(R.drawable.ic_album_error)
                     .into(ivAlbum)
