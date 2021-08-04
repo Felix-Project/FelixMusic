@@ -58,7 +58,7 @@ class SearchAdp : BaseBindingAdp<Mp3Bean, MusicItmBinding>() {
         IDownload.DownloadConfig(
             url = mp3Bean.url,
             name = "${mp3Bean.artist} - ${mp3Bean.title}.mp3",
-            File(Environment.getExternalStorageDirectory(), "felix/Music/Like")
+            File(Environment.getExternalStorageDirectory(), "felix/Music/Download")
         ).let { config ->
             DownloadProxy.download(config, { file ->
                 Log.d(TAG, "onCompelete: download success.")

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), ITAG {
         IDownload.DownloadConfig(
             url = url,
             name = name,
-            File(Environment.getExternalStorageDirectory(), "felix/Music/Like")
+            File(Environment.getExternalStorageDirectory(), "felix/Music/Download-tmp")
         ).let { config ->
             DownloadProxy.download(config, { file ->
                 Log.d(TAG, "onCompelete: download success.")

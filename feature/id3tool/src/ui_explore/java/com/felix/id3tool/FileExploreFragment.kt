@@ -84,6 +84,13 @@ class FileExploreFragment : BaseMvvmFragment<FileExploreViewModule>() {
         }
     }.root
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            viewModel.load()
+        }
+    }
+
     override fun onBackPress(): Boolean {
         if (super.onBackPress()) {
             return true
