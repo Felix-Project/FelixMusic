@@ -15,12 +15,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityMainBinding.inflate(layoutInflater).apply {
             vpMain.adapter = MainPager(supportFragmentManager)
-
-            val toggle = ActionBarDrawerToggle(
-                this@MainActivity, drawerLayout,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close
-            )
-            toggle.syncState()
             setContentView(root)
         }
         PermissionUtils.request(this)
