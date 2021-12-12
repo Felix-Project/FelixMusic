@@ -15,7 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.felix.download.DownloadProxy
 import com.felix.download.IDownload
-import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.lib_app_tools.toast.ToastProxy
 import com.felix.resp.utils.writeID3V2
 import com.felix.utils.gson.toJson
 import com.felix.utils.utils.ITAG
@@ -82,7 +82,7 @@ class MainActivity : Activity(), ITAG {
                     DownloadProxy.download(it, {
                         it.writeID3V2(songBean.title, songBean.artist, songBean.album?.title)
                         launch(Dispatchers.Main) {
-                            ToastDelegate.show(it.absolutePath)
+                            ToastProxy.show(it.absolutePath)
                         }
                     }, {
                         Log.e(TAG, "testClick: ", it)

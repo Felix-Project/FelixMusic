@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.felix.arch.mvvm.BaseMvvmFragment
-import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.lib_app_tools.toast.ToastProxy
 import com.felix.search.databinding.FragmentSearchBinding
 import kotlin.math.abs
 
@@ -71,7 +71,7 @@ class SearchFragment : BaseMvvmFragment<SearchViewModel>() {
         observe(viewModel.result) {
             dismissLoading()
             it.msg?.let {
-                ToastDelegate.show(it)
+                ToastProxy.show(it)
             }
         }
     }

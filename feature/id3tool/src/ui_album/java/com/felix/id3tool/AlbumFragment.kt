@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.felix.arch.mvvm.BaseMvvmFragment
 import com.felix.id3tool.databinding.FragmentAlbumBinding
-import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.lib_app_tools.toast.ToastProxy
 import java.io.File
 
 /**
@@ -97,7 +97,7 @@ class AlbumFragment : BaseMvvmFragment<AlbumViewModel>() {
             albumAdp.datas = it
         }
         observe(viewModel.result) {
-            ToastDelegate.show(it.msg)
+            ToastProxy.show(it.msg)
             dismissLoading()
         }
         observe(viewModel.id3Tag) {

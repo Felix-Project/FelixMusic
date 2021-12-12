@@ -9,8 +9,8 @@ import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import com.felix.lib_app_tools.toast.ToastDelegate
-import com.felix.utils.handler.UIDelegate
+import com.felix.lib_app_tools.toast.ToastProxy
+import com.felix.utils.handler.UIProxy
 import com.felix.utils.utils.ITAG
 import java.io.File
 

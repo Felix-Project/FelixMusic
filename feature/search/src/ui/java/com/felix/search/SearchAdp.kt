@@ -8,14 +8,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.felix.download.DownloadProxy
 import com.felix.download.IDownload
-import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.lib_app_tools.toast.ToastProxy
 import com.felix.music.core.BaseBindingAdp
 import com.felix.resp.IMp3Tag
 import com.felix.resp.Mp3Bean
 import com.felix.resp.Mp3TagProxy
 import com.felix.search.databinding.MusicItmBinding
-import com.felix.utils.AppDelegate
-import com.felix.utils.handler.UIDelegate
+import com.felix.utils.handler.UIProxy
 import java.io.File
 
 /**
@@ -79,18 +78,18 @@ class SearchAdp : BaseBindingAdp<Mp3Bean, MusicItmBinding>() {
                     Mp3TagProxy.writeID3V24(file, it)
                 }
                 Log.d(TAG, "onCompelete: writeID3V2 success.")
-                UIDelegate.post {
+                UIProxy.post {
                     binding.fdvDonwload.showDownloadOk()
-                    ToastDelegate.show(file.absolutePath)
+                    ToastProxy.show(file.absolutePath)
                 }
             }, {
                 Log.e(TAG, "onError: ", it)
-                UIDelegate.post {
+                UIProxy.post {
                     binding.fdvDonwload.showDownloadError()
                 }
             }, { downloaded, total ->
                 Log.i(TAG, "onProgress: downloaded=$downloaded,total=$total")
-                UIDelegate.post {
+                UIProxy.post {
                     binding.fdvDonwload.upDateProgress(downloaded * 1f / total)
                 }
             })

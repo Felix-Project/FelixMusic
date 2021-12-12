@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.felix.arch.mvvm.BaseMvvmFragment
 import com.felix.id3tool.databinding.FragmentFileExploreBinding
-import com.felix.lib_app_tools.toast.ToastDelegate
+import com.felix.lib_app_tools.toast.ToastProxy
 import com.felix.music.core.utils.isSdcard
 import java.io.File
 

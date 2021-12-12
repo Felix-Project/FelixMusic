@@ -2,7 +2,7 @@ package com.felix.resp
 
 import com.felix.utils.gson.fromJson
 import com.felix.utils.gson.toJson
-import com.felix.utils.utils.md5
+import com.felix.utils.utils.encrypt.md5
 
 /**
  *

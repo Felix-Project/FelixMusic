@@ -1,8 +1,7 @@
 package com.felix.resp
 
-import android.content.Context
 import androidx.room.*
-import com.felix.utils.AppDelegate
+import com.felix.utils.AppProxy
 
 /**
  *
@@ -37,7 +36,7 @@ public abstract class RespDatabase : RoomDatabase() {
     companion object {
         val instance by lazy {
             Room.databaseBuilder(
-                AppDelegate,
+                AppProxy,
                 RespDatabase::class.java,
                 "resp_database"
             ).build()

@@ -1,6 +1,6 @@
 package com.felix.resp
 
-import com.felix.utils.AppDelegate
+import com.felix.utils.AppProxy
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -34,5 +34,5 @@ private class CacheInterceptor : Interceptor {
 internal val okHttpClient = OkHttpClient.Builder()
     .addInterceptor(CacheInterceptor())
     .addInterceptor(logger)
-    .cache(Cache(AppDelegate.externalCacheDir!!, 20L * 1024 * 1024))
+    .cache(Cache(AppProxy.externalCacheDir!!, 20L * 1024 * 1024))
     .build()

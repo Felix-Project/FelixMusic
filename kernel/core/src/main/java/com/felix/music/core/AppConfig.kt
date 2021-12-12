@@ -6,7 +6,8 @@ val appConfig = arrayOf(
     "com.felix.resp.RespAppInit",
     "com.felix.search.SearchAppInit",
     "com.felix.mp3.Mp3AppInit",
-    "com.felix.id3tool.ID3ToolAppInit"
+    "com.felix.id3tool.ID3ToolAppInit",
+    "com.felix.setting.SettingAppInit"
 ).mapNotNull {
     it.runCatching {
         Class.forName(this).newInstance()
